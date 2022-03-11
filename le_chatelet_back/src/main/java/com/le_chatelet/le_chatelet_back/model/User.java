@@ -23,6 +23,11 @@ public class User {
         this.token = Integer.toString(random.nextInt(100000,999999));
     }
 
+    public User(String login, String password){
+        this.login = login;
+        this.hash = password;
+    }
+
     public String getLastName() {
         return lastName;
     }
