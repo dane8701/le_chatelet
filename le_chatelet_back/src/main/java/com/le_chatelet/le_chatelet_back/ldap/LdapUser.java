@@ -1,25 +1,24 @@
 package com.le_chatelet.le_chatelet_back.ldap;
 
 import com.le_chatelet.le_chatelet_back.model.User;
-import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class LdapUser implements UserInterface{
-    private LdapTemplate ldapTemplate;
+import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
-    public void setLdapTemplate(LdapTemplate ldapTemplate) {
+@Service
+public class LdapUser implements UserInterface{
+    private final LdapTemplate ldapTemplate;
+
+    public LdapUser(LdapTemplate ldapTemplate) {
         this.ldapTemplate = ldapTemplate;
     }
 
     @Override
-    public List<String> searchUser(String login) {
-        return ldapTemplate
-                .search(
-                        "ou=users",
-                        "cn=" + login,
-                        (AttributesMapper<String>) attrs -> String.valueOf((User) attrs.get("cn").get()));
-
+    public User getPersonNamesByUid(String userId) {
+        List<User> people = ldapTemplate.search(query().where("uid").is(userId), new UserAttributesMapper());
+        return ((null != people && !people.isEmpty()) ? people.get(0) : null);
     }
 }

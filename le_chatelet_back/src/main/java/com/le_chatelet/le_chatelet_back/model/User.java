@@ -28,6 +28,9 @@ public class User {
         this.hash = password;
     }
 
+    public User() {
+    }
+
     public String getLastName() {
         return lastName;
     }

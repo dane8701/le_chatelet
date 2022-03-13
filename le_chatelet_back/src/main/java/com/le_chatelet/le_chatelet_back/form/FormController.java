@@ -22,7 +22,7 @@ public class FormController {
         return null;
     }
 
-    @PostMapping(value = "/authenticate",
+    /*@PostMapping(value = "/authenticate",
             consumes = "application/json",
             produces = "application/json")
     public void checkLogin(@RequestBody User user){
@@ -30,6 +30,6 @@ public class FormController {
         if (!ldapResearch.contains(null)){
             user.setFirstName(FormController.getUserFromLdapResearch(ldapResearch, user.getLogin()));
         }
-    }
+    }*/
 
 }
