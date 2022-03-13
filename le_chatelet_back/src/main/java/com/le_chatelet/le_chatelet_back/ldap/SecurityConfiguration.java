@@ -27,17 +27,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/authenticate/login**").anonymous()
-                .antMatchers("/ressources/**").authenticated()
-                .antMatchers("/assets/**").authenticated()
-                .antMatchers("/").authenticated()
-                .antMatchers("/authenticate/signin.html").authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/signin.html")
+                .loginPage("/signin")
                 //.loginProcessingUrl("/authenticate/login")
-                .defaultSuccessUrl("/authenticate/error.html")
-                .failureUrl("/authenticate/error.html")
+                /*.defaultSuccessUrl("/authenticate/error.html")
+                .failureUrl("/authenticate/error.html")*/
                 .and()
                 .logout()
                 .permitAll()
