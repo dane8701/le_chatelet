@@ -28,6 +28,12 @@ public class User {
         this.hash = password;
     }
 
+    public User(String login, String number, String mail){
+        this.login = login;
+        this.number = number;
+        this.mail = mail;
+
+    }
     public User() {
     }
 

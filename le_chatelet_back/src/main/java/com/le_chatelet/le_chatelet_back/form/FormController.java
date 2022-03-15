@@ -1,4 +1,4 @@
-package com.le_chatelet.le_chatelet_back.form;
+/*package com.le_chatelet.le_chatelet_back.form;
 
 import com.le_chatelet.le_chatelet_back.ldap.LdapUser;
 import com.le_chatelet.le_chatelet_back.model.User;
@@ -22,7 +22,7 @@ public class FormController {
         return null;
     }
 
-    /*@PostMapping(value = "/authenticate",
+    @PostMapping(value = "/authenticate",
             consumes = "application/json",
             produces = "application/json")
     public void checkLogin(@RequestBody User user){
@@ -30,6 +30,7 @@ public class FormController {
         if (!ldapResearch.contains(null)){
             user.setFirstName(FormController.getUserFromLdapResearch(ldapResearch, user.getLogin()));
         }
-    }*/
+    }
 
 }
+*/
