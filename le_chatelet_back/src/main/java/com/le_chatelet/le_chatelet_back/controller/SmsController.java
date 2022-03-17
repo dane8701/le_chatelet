@@ -21,6 +21,5 @@ public class SmsController {
     @PostMapping
     public void sendSms(@RequestBody SmsRequest smsRequest){
         senderService.sendSms(smsRequest);
-
     }
 }

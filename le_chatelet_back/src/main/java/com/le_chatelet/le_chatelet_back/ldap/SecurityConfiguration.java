@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider;
+import org.springframework.security.ldap.userdetails.PersonContextMapper;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -25,6 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // to parse AD failed credentails error message due to account - expiry,lock, credentialis - expiry,lock
         activeDirectoryLdapAuthenticationProvider.setConvertSubErrorCodesToExceptions(true);
         activeDirectoryLdapAuthenticationProvider.setUseAuthenticationRequestCredentials(true);
+        activeDirectoryLdapAuthenticationProvider.setUserDetailsContextMapper(new PersonContextMapper());
         return activeDirectoryLdapAuthenticationProvider;
     }
 
@@ -32,14 +34,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
         authenticationManagerBuilder
                 .authenticationProvider(activeDirectoryLdapAuthenticationProvider());
-                /*.ldapAuthentication()
-                .userDnPatterns("uid={0}, ou=Chatelet")
-                .contextSource()
-                .url("ldap://192.168.1.37:389/dc=chatelet,dc=com")
-                .and()
-                .passwordCompare()
-                .passwordEncoder(new LdapShaPasswordEncoder())
-                .passwordAttribute("userPassword");*/
     }
 
     @Override
@@ -50,11 +44,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .fullyAuthenticated()
                 .and()
                 .formLogin()
-                /*.loginPage("/signin.html")
+                //.loginPage("/signin.html")
                 .permitAll()
+                .defaultSuccessUrl("/user")
+                //.failureUrl("/signin.html?error=true")
                 .and()
                 .logout()
-                .permitAll()*/
+                .permitAll()
                 //.loginProcessingUrl("/authenticate/login")
                 /*.defaultSuccessUrl("/authenticate/error.html")
                 .failureUrl("/authenticate/error.html")*/
