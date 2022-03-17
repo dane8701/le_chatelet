@@ -1,6 +1,7 @@
 package com.le_chatelet.le_chatelet_back.ldap;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,21 +41,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
                 .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/authentification/sms").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/2fa").permitAll()
                 .anyRequest()
                 .fullyAuthenticated()
                 .and()
                 .formLogin()
                 //.loginPage("/signin.html")
                 .permitAll()
-                .defaultSuccessUrl("/user")
                 //.failureUrl("/signin.html?error=true")
                 .and()
                 .logout()
                 .permitAll()
+                .deleteCookies("JSESSIONID");
                 //.loginProcessingUrl("/authenticate/login")
                 /*.defaultSuccessUrl("/authenticate/error.html")
                 .failureUrl("/authenticate/error.html")*/
                 ;
+                httpSecurity.csrf().disable();
 
     }
 }

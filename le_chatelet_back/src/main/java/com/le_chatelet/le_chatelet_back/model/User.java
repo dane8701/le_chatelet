@@ -103,6 +103,7 @@ public class User implements UserDetails {
         this.token = Integer.toString(random.nextInt(100000,999999));
     }
 
+    @JsonIgnore
     public String getMessage(){
         return "Votre code de vérification Le Chatelet est : " + this.token;
     }
