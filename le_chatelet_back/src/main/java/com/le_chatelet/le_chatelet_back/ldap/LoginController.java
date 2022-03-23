@@ -6,8 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.ldap.userdetails.Person;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +39,8 @@ public class LoginController {
         else {
             this.map.get(person.getLogin()).generateToken();
             logger.info("changing token to : "+ this.map.get(person.getLogin()).getToken());
+            SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+            SecurityContextHolder.clearContext();
             return ResponseEntity.status(403).build();
         }
     }
