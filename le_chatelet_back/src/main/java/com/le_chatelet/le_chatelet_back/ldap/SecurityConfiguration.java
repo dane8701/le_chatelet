@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider;
 import org.springframework.security.ldap.userdetails.PersonContextMapper;
 
@@ -47,17 +46,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .fullyAuthenticated()
                 .and()
                 .formLogin()
-                //.loginPage("/signin.html")
+                .loginPage("/login")
                 .permitAll()
-                //.failureUrl("/signin.html?error=true")
+                .defaultSuccessUrl("/home_page.html",true)
+                .permitAll()
+                .failureUrl("/authenticate/error.html")
                 .and()
                 .logout()
                 .permitAll()
                 .deleteCookies("JSESSIONID");
-                //.loginProcessingUrl("/authenticate/login")
-                /*.defaultSuccessUrl("/authenticate/error.html")
-                .failureUrl("/authenticate/error.html")*/
-                ;
                 httpSecurity.csrf().disable();
 
     }
