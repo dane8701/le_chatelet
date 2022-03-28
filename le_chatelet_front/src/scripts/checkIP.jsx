@@ -31,7 +31,7 @@ export function response() {
         console.log("SUCCESS")
         var location = response.data
         console.log(location.country);
-        sendInfo(location)
+        //sendInfo(location)
         })
         .catch((error)=> {
         // handle error

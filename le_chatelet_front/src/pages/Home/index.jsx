@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import React from 'react'
 import logo from '../../assets/logo.png'
 import {response} from './../../scripts/checkIP'
+import {axios} from 'axios'
 
 const DivForm = styled.form `
     position: absolute;
@@ -74,11 +75,34 @@ const Logo = styled.img `
 export default class Home extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            user: {
+                username: "",
+                password: ""
+            },
+        }
 
     }
 
     componentDidMount(){
         response();
+    }
+
+    handle(e) {
+        const newUser = {...this.state.user}
+        newUser[e.target.id] = e.target.value
+        this.setState({ user: newUser })
+    }
+
+    login() {
+        console.log("oder")
+        const user = this.state.user
+        console.log(user)
+        axios.post("/login", {
+            user
+        })
+        .then((response) => console.log(response))
+        .catch((error) => console.error(error))
     }
 
     render(){
@@ -88,17 +112,17 @@ export default class Home extends React.Component {
                     <Logo src={logo} alt="logo" />
                 </div>
                 <div style={{ backgroundColor: '#EEF2F6', height: '50vh'}}>
-                <DivForm>
+                <DivForm onSubmit={() => this.login()}>
                     <center><TitleForm>Connexion</TitleForm></center>
                     <div style={{marginTop: '25px'}}>
                         <LabelForm>Nom d'utilisateur</LabelForm>
                         <br/>
-                        <InputForm type='text' name="username" placeholder=""/>
+                        <InputForm onChange={(e) => this.handle(e)} id="username" value={this.state.user.username} label="username" type='text' name="username" placeholder=""/>
                     </div>
                     <div style={{marginTop: '25px'}}>
                         <LabelForm>Mot de passe</LabelForm>
                         <br/>
-                        <InputForm type='password' name="password" placeholder=""/>
+                        <InputForm onChange={(e) => this.handle(e)} id="password" value={this.state.user.password} label="password" type='password' name="password" placeholder=""/>
                     </div>
                     <div style={{marginTop: '25px', textAlign: 'center'}}>
                         <SubmitForm type='submit' name="valider" value="Se connecter"/>

@@ -27,4 +27,4 @@ application.properties
 *.java
 le_chatelet_front/node_modules/.cache/.eslintcache
 le_chatelet_front/node_modules/.cache/.eslintcache
-
+node_modules
