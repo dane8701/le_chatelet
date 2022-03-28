@@ -28,3 +28,5 @@ application.properties
 le_chatelet_front/node_modules/.cache/.eslintcache
 le_chatelet_front/node_modules/.cache/.eslintcache
 node_modules
+*.pack
+le_chatelet_front/node_modules/.cache/default-development/3.pack
