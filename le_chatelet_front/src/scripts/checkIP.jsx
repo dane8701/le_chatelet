@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 //IP Detection with output
 var ip = ''; // Current IP
@@ -23,6 +24,16 @@ function sendInfo(locationData){
           });
 }
 
+function CountryCheck(locationData){
+        const navigate = useNavigate();
+        if (locationData.country == "France")
+            console.log("Right Country")
+        else {
+            console.log("Wrong Country")
+            navigate("./../pages/Rejection/index")
+        };
+}
+
 export function response() {
     console.log("HELLOOOOOOO !!!")
     axios.get("http://ipwhois.app/json/" + ip)
@@ -32,6 +43,7 @@ export function response() {
         var location = response.data
         console.log(location.country);
         sendInfo(location)
+
         })
         .catch((error)=> {
         // handle error
