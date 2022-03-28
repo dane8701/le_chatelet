@@ -1,5 +1,7 @@
 import styled from 'styled-components'
+import React from 'react'
 import logo from '../../assets/logo.png'
+import {response} from './../../scripts/checkIP'
 
 const DivForm = styled.form `
     position: absolute;
@@ -69,31 +71,43 @@ const Logo = styled.img `
     margin-top: 5vh;
 `
 
-export default function Home () {
-    return (
-        <div style={{ display: 'block', height: '100vh'}}>
-            <div style={{ backgroundColor: '#0D79CA', height: '50vh', textAlign: 'center'}}>
-                <Logo src={logo} alt="logo" />
+export default class Home extends React.Component {
+    constructor(props) {
+        super(props)
+
+    }
+
+    componentDidMount(){
+        response();
+    }
+
+    render(){
+        return (
+            <div style={{ display: 'block', height: '100vh'}}>
+                <div style={{ backgroundColor: '#0D79CA', height: '50vh', textAlign: 'center'}}>
+                    <Logo src={logo} alt="logo" />
+                </div>
+                <div style={{ backgroundColor: '#EEF2F6', height: '50vh'}}>
+                <DivForm>
+                    <center><TitleForm>Connexion</TitleForm></center>
+                    <div style={{marginTop: '25px'}}>
+                        <LabelForm>Nom d'utilisateur</LabelForm>
+                        <br/>
+                        <InputForm type='text' name="username" placeholder=""/>
+                    </div>
+                    <div style={{marginTop: '25px'}}>
+                        <LabelForm>Mot de passe</LabelForm>
+                        <br/>
+                        <InputForm type='password' name="password" placeholder=""/>
+                    </div>
+                    <div style={{marginTop: '25px', textAlign: 'center'}}>
+                        <SubmitForm type='submit' name="valider" value="Se connecter"/>
+                    </div>
+                </DivForm>
+
+                </div>
             </div>
-            <div style={{ backgroundColor: '#EEF2F6', height: '50vh'}}>
-            <DivForm>
-                <center><TitleForm>Connexion</TitleForm></center>
-                <div style={{marginTop: '25px'}}>
-                    <LabelForm>Nom d'utilisateur</LabelForm>
-                    <br/>
-                    <InputForm type='text' name="username" placeholder=""/>
-                </div>
-                <div style={{marginTop: '25px'}}>
-                    <LabelForm>Mot de passe</LabelForm>
-                    <br/>
-                    <InputForm type='password' name="password" placeholder=""/>
-                </div>
-                <div style={{marginTop: '25px', textAlign: 'center'}}>
-                    <SubmitForm type='submit' name="valider" value="Se connecter"/>
-                </div>
-            </DivForm>
-                
-            </div>
-        </div>
-    );
+        );
+    }
+
 }
