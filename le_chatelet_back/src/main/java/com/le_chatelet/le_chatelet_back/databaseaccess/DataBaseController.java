@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path="/db")
 public class DataBaseController {
     private final Logger logger = LoggerFactory.getLogger(DataBaseController.class);
+    
     @Autowired
     private IpUserRepository ipRepository;
 
@@ -33,7 +34,7 @@ public class DataBaseController {
         message.setSubject("IP de connexion différente");
         message.setText("Une connexion à votre compte à été effectué via une adresse IP inhabituelle : "+ ipUser.getIp()+ ". " +
                 "Ce n'est pas vous ? Adressez vous au plus vite à votre administrateur ou à votre manager !");
-        
+
         javaMailSender.send(message);
 
         return "Email sent";
@@ -43,5 +44,4 @@ public class DataBaseController {
     public @ResponseBody Iterable<IpUser> getAllIp(){
         return ipRepository.findAll();
     }
-
 }
