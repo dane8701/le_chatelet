@@ -42,6 +42,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/authentification/sms").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/2fa").permitAll()
+                .antMatchers(HttpMethod.POST, "/db/addIp").permitAll()
+                .antMatchers(HttpMethod.GET, "/db/getAll").permitAll()
                 .anyRequest()
                 .fullyAuthenticated()
                 .and()
