@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path="/db")
 public class DataBaseController {
     private final Logger logger = LoggerFactory.getLogger(DataBaseController.class);
-    
+
     @Autowired
     private IpUserRepository ipRepository;
 
