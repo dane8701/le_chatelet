@@ -152,8 +152,8 @@ export default class Home extends React.Component {
                     <Logo src={logo} alt="logo" />
                 </div>
                 <div style={{ backgroundColor: '#EEF2F6', height: '50vh'}}>
-                {/* <DivForm onSubmit={(e) => this.login(e)}> */}
-                <DivForm method='POST' action='http://localhost:8080/login'>
+                <DivForm onSubmit={(e) => this.login(e)}>
+                {/* <DivForm method='POST' action='http://localhost:8080/login'> */}
                     <center><TitleForm>Connexion</TitleForm></center>
                     <div style={{marginTop: '25px'}}>
                         <LabelForm>Nom d'utilisateur</LabelForm>
