@@ -134,7 +134,7 @@ export default class Home extends React.Component {
         console.log("order")
         const user = this.state.user
         console.log(user)
-        axios.post("/user/2fa", {
+        axios.post("http://localhost:8080/user/2fa", {
             user
         })
         .then((response) => {

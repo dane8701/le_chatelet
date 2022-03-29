@@ -108,7 +108,7 @@ export default class Home extends React.Component {
     }
 
     getUserOnline() {
-        axios.get("/user")
+        axios.get("http://localhost:8080/user")
             .then((response)=> {
             // handle success
                 console.log("SUCCESS")

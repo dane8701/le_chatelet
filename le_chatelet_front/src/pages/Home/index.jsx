@@ -81,7 +81,7 @@ export default class Home extends React.Component {
                 username: "",
                 password: "",
             },
-            location: undefined,
+            location: "",
             res: undefined,
         };
         this._method = this._method.bind(this)
@@ -96,7 +96,7 @@ export default class Home extends React.Component {
             console.log("SUCCESS")
             console.log(location.country);
             if(location.country_code === "FR") {
-                this.setState({ location: location, res: false })
+                this.setState({ location: location.ip, res: false })
                 // return 0
             }
             else {
@@ -141,17 +141,28 @@ export default class Home extends React.Component {
         };
     
         
-        axios.post('/login', user, { headers })
+        axios.post('http://localhost:8080/login', user, { headers })
         .then((response) => {
             console.log(response)
-            // this.state.location
+
+            axios.get("http://localhost:8080/db/getAll")
+            .then((response) => {
+            var object = response.data
+
+            console.log(object.ip)
+            if(!object.ip.include(this.state.location) && object.login == this.state.user.username)
+            {
+                axios.post("http://localhost:8080/db/addIp", {login: object.login, ip: this.state.location}, {headers})
+                .then((res) => console.log(res.message))
+                .catch((err) => console.error(err))
+            }
+            //this.state.location
+            })
+            .catch((error) => console.error(error))
             // this.props.history.push('/auth1')
         })
         .catch((error) => console.error(error))
-            axios.get("http://localhost:8080/db/getAll")
-            .then((response) => {
-            var ipList
-        })
+
     }
 
     render(){
