@@ -10,4 +10,8 @@ class LeChateletBackApplicationTests {
     void contextLoads() {
     }
 
+    @Test
+    public void testUserTokenNotNull(){
+    }
+
 }
