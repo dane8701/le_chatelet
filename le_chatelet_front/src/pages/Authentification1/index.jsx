@@ -3,6 +3,8 @@ import React from 'react'
 import logo from '../../assets/logo.png'
 import {response} from './../../scripts/checkIP'
 import {axios} from 'axios'
+import { Navigate } from "react-router-dom"
+
 
 const DivForm = styled.form `
     position: absolute;
@@ -77,51 +79,114 @@ export default class Home extends React.Component {
         super(props)
         this.state = {
             user: {
-                username: "",
-                password: ""
+                lastName: "",
+                firstName: "",
+                login: "",
+                number: "",
+                mail: "",
+                token: "",
+
             },
+            numberScreen: "",
+            res: undefined,
+        }
+        this._method = this._method.bind(this)
+    }
+
+    maskNumber(num) {
+        let a = "";
+        for (let i = 0; i < num.length; ++i) {
+            if(i < 8) {
+                a = a + "X";
+            }
+            else {
+                a = a + num.charAt(i);
+            }
         }
 
+        return a;
+    }
+
+    getUserOnline() {
+        axios.get("/user")
+            .then((response)=> {
+            // handle success
+                console.log("SUCCESS")
+                var newUser = response.data
+                console.log(newUser);
+                this.setState({ 
+                    user: newUser, 
+                    numberScreen: this.maskNumber(this.state.user.number) 
+                })
+
+            })
+            .catch((error)=> {
+                // handle error
+                console.log("ERROR")
+                console.log(error);
+        });
+    }
+
+    _method() {
+        var ip = ""
+        axios.get("http://ipwhois.app/json/" + ip)
+        .then((response)=> {
+            var location = response.data
+            console.log("SUCCESS")
+            console.log(location.country);
+            if(location.country_code === "FR") {
+                this.setState({ res: false })
+                // return 0
+            }
+            else {
+                // console.log("1")
+                this.setState({ res: true })
+                // return 1
+            }
+        })
+        .catch((error)=> {
+            this.setState({ res: true })
+            // return 1
+        });
+    }
+
+    componentWillMount(){
+        this._method()
     }
 
     componentDidMount(){
         response();
+        this.getUserOnline();
     }
 
-    handle(e) {
-        const newUser = {...this.state.user}
-        newUser[e.target.id] = e.target.value
-        this.setState({ user: newUser })
-    }
-
-    login(e) {
+    receive(e) {
         // e.preventDefault();
         console.log("order")
         const user = this.state.user
         console.log(user)
-        axios.post("/login", {
-            user
+        axios.post("/authentification/sms", {
+            "user": user
         })
         .then((response) => {
             console.log(response)
-            this.props.history.push('/')
+            // this.props.history.push('/')
         })
         .catch((error) => console.error(error))
     }
 
     render(){
-        return (
+        return this.state.res ? <Navigate to='/country'/> : (
             <div style={{ display: 'block', height: '100vh'}}>
                 <div style={{ backgroundColor: '#0D79CA', height: '50vh', textAlign: 'center'}}>
                     <Logo src={logo} alt="logo" />
                 </div>
                 <div style={{ backgroundColor: '#EEF2F6', height: '50vh'}}>
-                <DivForm onSubmit={(e) => this.login(e)}>
+                <DivForm onSubmit={(e) => this.receive(e)}>
                     <center><TitleForm>Autentification à double facteurs</TitleForm></center>
                     <br/>
                     <br/>
                     <div style={{marginTop: '25px'}}>
-                        <LabelForm>Vous allez recevoir un code d’authentification à 6 chiffres au "telNumber" en appuyant sur ce bouton.</LabelForm>
+                        <LabelForm>Vous allez recevoir un code d’authentification à 6 chiffres au { this.state.numberScreen } en appuyant sur ce bouton.</LabelForm>
                     </div>
                     <br/>
                     <br/>

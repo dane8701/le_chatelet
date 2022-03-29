@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 import React from 'react'
 import logo from '../../assets/logo.png'
-import {response} from './../../scripts/checkIP'
-import {axios} from 'axios'
+import { Navigate } from "react-router-dom"
+import axios from 'axios';
+
 
 const DivForm = styled.form `
     position: absolute;
@@ -80,12 +81,45 @@ export default class Home extends React.Component {
                 username: "",
                 password: ""
             },
-        }
-
+            res: undefined,
+        };
+        this._method = this._method.bind(this)
+        
     }
 
-    componentDidMount(){
-        response();
+    _method() {
+        var ip = ""
+        axios.get("http://ipwhois.app/json/" + ip)
+        .then((response)=> {
+            var location = response.data
+            console.log("SUCCESS")
+            console.log(location.country);
+            if(location.country_code === "FR") {
+                this.setState({ res: false })
+                // return 0
+            }
+            else {
+                // console.log("1")
+                this.setState({ res: true })
+                // return 1
+            }
+        })
+        .catch((error)=> {
+            this.setState({ res: true })
+            // return 1
+        });
+    }
+
+    // componentDidMount(){
+    //     this.method()
+    // }
+
+    // componentWillUnmount(){
+    //     this.method()
+    // }
+
+    componentWillMount(){
+        this._method()
     }
 
     handle(e) {
@@ -106,13 +140,13 @@ export default class Home extends React.Component {
         })
         .then((response) => {
             console.log(response)
-            this.props.history.push('/auth1')
+            // this.props.history.push('/auth1')
         })
         .catch((error) => console.error(error))
     }
 
     render(){
-        return (
+        return this.state.res ? <Navigate to='/country'/> : (
             <div style={{ display: 'block', height: '100vh'}}>
                 <div style={{ backgroundColor: '#0D79CA', height: '50vh', textAlign: 'center'}}>
                     <Logo src={logo} alt="logo" />
@@ -137,7 +171,7 @@ export default class Home extends React.Component {
 
                 </div>
             </div>
-        );
+        ) 
     }
 
 }

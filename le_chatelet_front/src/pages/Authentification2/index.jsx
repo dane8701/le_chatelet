@@ -3,6 +3,8 @@ import React from 'react'
 import logo from '../../assets/logo.png'
 import {response} from './../../scripts/checkIP'
 import {axios} from 'axios'
+import { Navigate } from "react-router-dom"
+
 
 const DivForm = styled.form `
     position: absolute;
@@ -77,15 +79,48 @@ export default class Home extends React.Component {
         super(props)
         this.state = {
             user: {
-                username: "",
-                password: ""
+                lastName: "",
+                firstName: "",
+                login: "",
+                number: "",
+                mail: "",
+                token: "",
             },
-        }
+            res: undefined,
+        };
+        this._method = this._method.bind(this)
 
     }
 
     componentDidMount(){
         response();
+    }
+
+    componentWillMount(){
+        this._method()
+    }
+
+    _method() {
+        var ip = ""
+        axios.get("http://ipwhois.app/json/" + ip)
+        .then((response)=> {
+            var location = response.data
+            console.log("SUCCESS")
+            console.log(location.country);
+            if(location.country_code === "FR") {
+                this.setState({ res: false })
+                // return 0
+            }
+            else {
+                // console.log("1")
+                this.setState({ res: true })
+                // return 1
+            }
+        })
+        .catch((error)=> {
+            this.setState({ res: true })
+            // return 1
+        });
     }
 
     handle(e) {
@@ -94,23 +129,23 @@ export default class Home extends React.Component {
         this.setState({ user: newUser })
     }
 
-    login(e) {
+    sendCode(e) {
         // e.preventDefault();
         console.log("order")
         const user = this.state.user
         console.log(user)
-        axios.post("/login", {
+        axios.post("/user/2fa", {
             user
         })
         .then((response) => {
             console.log(response)
-            this.props.history.push('/')
+            // this.props.history.push('/')
         })
         .catch((error) => console.error(error))
     }
 
     render() {
-        return (
+        return this.state.res ? <Navigate to='/country'/> : (
             <div style={{ display: 'block', height: '100vh'}}>
                 <div style={{ backgroundColor: '#0D79CA', height: '50vh', textAlign: 'center'}}>
                     <Logo src={logo} alt="logo" />
@@ -121,10 +156,10 @@ export default class Home extends React.Component {
                     <div style={{marginTop: '25px'}}>
                         <LabelForm>ENTREZ LE CODE D’AUTHENTIFICATION :</LabelForm>
                         <br/>
-                        <InputForm onChange={(e) => this.handle(e)} id="username" value={this.state.user.username} label="username" type='text' name="username" placeholder="Code d’authentification à 6 chiffres"/>
+                        <InputForm onChange={(e) => this.handle(e)} id="token" value={this.state.user.username} label="token" type='text' name="token" placeholder="Code d’authentification à 6 chiffres"/>
                     </div>
                     <div style={{marginTop: '25px', textAlign: 'center'}}>
-                        <SubmitForm type='submit' name="valider" value="Se connecter"/>
+                        <SubmitForm type='submit' name="valider" value="Vérifier"/>
                     </div>
                 </DivForm>
 
