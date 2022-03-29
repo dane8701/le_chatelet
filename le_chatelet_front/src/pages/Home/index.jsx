@@ -79,7 +79,7 @@ export default class Home extends React.Component {
         this.state = {
             user: {
                 username: "",
-                password: ""
+                password: "",
             },
             location: undefined,
             res: undefined,
@@ -145,6 +145,10 @@ export default class Home extends React.Component {
             // this.props.history.push('/auth1')
         })
         .catch((error) => console.error(error))
+        axios.get("http://localhost:8080/db/getAll")
+        .then((response) => {
+        var ipList
+        })
     }
 
     render(){
