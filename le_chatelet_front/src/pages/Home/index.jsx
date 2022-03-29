@@ -136,18 +136,21 @@ export default class Home extends React.Component {
         console.log("order")
         const user = this.state.user
         console.log(user)
-        axios.post("/login", {
-            user
-        })
+        const headers = { 
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        };
+    
+        
+        axios.post('/login', user, { headers })
         .then((response) => {
             console.log(response)
             // this.state.location
             // this.props.history.push('/auth1')
         })
         .catch((error) => console.error(error))
-        axios.get("http://localhost:8080/db/getAll")
-        .then((response) => {
-        var ipList
+            axios.get("http://localhost:8080/db/getAll")
+            .then((response) => {
+            var ipList
         })
     }
 
