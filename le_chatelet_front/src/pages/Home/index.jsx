@@ -81,6 +81,7 @@ export default class Home extends React.Component {
                 username: "",
                 password: ""
             },
+            location: undefined,
             res: undefined,
         };
         this._method = this._method.bind(this)
@@ -95,7 +96,7 @@ export default class Home extends React.Component {
             console.log("SUCCESS")
             console.log(location.country);
             if(location.country_code === "FR") {
-                this.setState({ res: false })
+                this.setState({ location: location, res: false })
                 // return 0
             }
             else {
@@ -140,6 +141,7 @@ export default class Home extends React.Component {
         })
         .then((response) => {
             console.log(response)
+            // this.state.location
             // this.props.history.push('/auth1')
         })
         .catch((error) => console.error(error))
