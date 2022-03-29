@@ -45,6 +45,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/user/2fa").permitAll()
                 .antMatchers(HttpMethod.POST, "/db/addIp").permitAll()
                 .antMatchers(HttpMethod.GET, "/db/getAll").permitAll()
+                .antMatchers(HttpMethod.GET, "/index*", "/static/**", "/*.js", "/*.json", "/*.ico")
+                .permitAll()
                 .anyRequest()
                 .fullyAuthenticated()
                 .and()
@@ -58,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll()
                 .deleteCookies("JSESSIONID");
-                httpSecurity.csrf().disable();
+                httpSecurity.csrf().disable().authorizeRequests();
 
     }
 }
