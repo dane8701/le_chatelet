@@ -1,6 +1,8 @@
 package com.le_chatelet.le_chatelet_back.ldap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider;
 import org.springframework.security.ldap.userdetails.PersonContextMapper;
 
+@Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -39,23 +42,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
+                .httpBasic()
+                .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/authentification/sms").permitAll()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/").permitAll()
                 .antMatchers(HttpMethod.GET, "/user").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/2fa").permitAll()
                 .antMatchers(HttpMethod.POST, "/db/addIp").permitAll()
                 .antMatchers(HttpMethod.GET, "/db/getAll").permitAll()
-                .antMatchers(HttpMethod.GET, "/index*", "/static/**", "/*.js", "/*.json", "/*.ico")
-                .permitAll()
+                .antMatchers(HttpMethod.GET, "/index*", "/static/**", "/*.js", "/*.jsx", "/*.json", "/*.ico").permitAll()
                 .anyRequest()
                 .fullyAuthenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .defaultSuccessUrl("/home_page.html",true)
-                .permitAll()
-                .failureUrl("/authenticate/error.html")
+                .defaultSuccessUrl("/user")
                 .and()
                 .logout()
                 .permitAll()
