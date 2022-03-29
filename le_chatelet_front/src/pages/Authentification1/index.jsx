@@ -96,8 +96,6 @@ export default class Home extends React.Component {
 
     login(e) {
         // e.preventDefault();
-        // this.props.history.push('/auth1')
-
         console.log("order")
         const user = this.state.user
         console.log(user)
@@ -106,7 +104,7 @@ export default class Home extends React.Component {
         })
         .then((response) => {
             console.log(response)
-            this.props.history.push('/auth1')
+            this.props.history.push('/')
         })
         .catch((error) => console.error(error))
     }
@@ -119,19 +117,17 @@ export default class Home extends React.Component {
                 </div>
                 <div style={{ backgroundColor: '#EEF2F6', height: '50vh'}}>
                 <DivForm onSubmit={(e) => this.login(e)}>
-                    <center><TitleForm>Connexion</TitleForm></center>
+                    <center><TitleForm>Autentification à double facteurs</TitleForm></center>
+                    <br/>
+                    <br/>
                     <div style={{marginTop: '25px'}}>
-                        <LabelForm>Nom d'utilisateur</LabelForm>
-                        <br/>
-                        <InputForm onChange={(e) => this.handle(e)} id="username" value={this.state.user.username} label="username" type='text' name="username" placeholder=""/>
+                        <LabelForm>Vous allez recevoir un code d’authentification à 6 chiffres au "telNumber" en appuyant sur ce bouton.</LabelForm>
                     </div>
-                    <div style={{marginTop: '25px'}}>
-                        <LabelForm>Mot de passe</LabelForm>
-                        <br/>
-                        <InputForm onChange={(e) => this.handle(e)} id="password" value={this.state.user.password} label="password" type='password' name="password" placeholder=""/>
-                    </div>
+                    <br/>
+                    <br/>
+                   
                     <div style={{marginTop: '25px', textAlign: 'center'}}>
-                        <SubmitForm type='submit' name="valider" value="Se connecter"/>
+                        <SubmitForm type='submit' name="valider" value="Recevoir"/>
                     </div>
                 </DivForm>
 
