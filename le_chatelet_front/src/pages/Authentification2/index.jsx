@@ -96,8 +96,6 @@ export default class Home extends React.Component {
 
     login(e) {
         // e.preventDefault();
-        // this.props.history.push('/auth1')
-
         console.log("order")
         const user = this.state.user
         console.log(user)
@@ -106,12 +104,12 @@ export default class Home extends React.Component {
         })
         .then((response) => {
             console.log(response)
-            this.props.history.push('/auth1')
+            this.props.history.push('/')
         })
         .catch((error) => console.error(error))
     }
 
-    render(){
+    render() {
         return (
             <div style={{ display: 'block', height: '100vh'}}>
                 <div style={{ backgroundColor: '#0D79CA', height: '50vh', textAlign: 'center'}}>
@@ -121,14 +119,9 @@ export default class Home extends React.Component {
                 <DivForm onSubmit={(e) => this.login(e)}>
                     <center><TitleForm>Connexion</TitleForm></center>
                     <div style={{marginTop: '25px'}}>
-                        <LabelForm>Nom d'utilisateur</LabelForm>
+                        <LabelForm>ENTREZ LE CODE D’AUTHENTIFICATION :</LabelForm>
                         <br/>
-                        <InputForm onChange={(e) => this.handle(e)} id="username" value={this.state.user.username} label="username" type='text' name="username" placeholder=""/>
-                    </div>
-                    <div style={{marginTop: '25px'}}>
-                        <LabelForm>Mot de passe</LabelForm>
-                        <br/>
-                        <InputForm onChange={(e) => this.handle(e)} id="password" value={this.state.user.password} label="password" type='password' name="password" placeholder=""/>
+                        <InputForm onChange={(e) => this.handle(e)} id="username" value={this.state.user.username} label="username" type='text' name="username" placeholder="Code d’authentification à 6 chiffres"/>
                     </div>
                     <div style={{marginTop: '25px', textAlign: 'center'}}>
                         <SubmitForm type='submit' name="valider" value="Se connecter"/>
@@ -139,5 +132,4 @@ export default class Home extends React.Component {
             </div>
         );
     }
-
 }
