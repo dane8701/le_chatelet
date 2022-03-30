@@ -1,6 +1,7 @@
 package com.le_chatelet.le_chatelet_back.databaseaccess;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,12 +12,8 @@ public class DataBaseController {
     @Autowired
     private IpUserRepository ipRepository;
 
-    @PostMapping(path="/addIp")
-    public @ResponseBody String addIp(@RequestParam String login, @RequestParam String ip){
-        IpUser ipUser = new IpUser();
-
-        ipUser.setLogin(login);
-        ipUser.setIp(ip);
+    @PostMapping(path="/addIp", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String addIp(@RequestBody IpUser ipUser){
 
         ipRepository.save(ipUser);
 

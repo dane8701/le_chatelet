@@ -3,7 +3,7 @@ import React from 'react'
 import logo from '../../assets/logo.png'
 import { Navigate } from "react-router-dom"
 import axios from 'axios';
-
+import qs from 'qs';
 
 const DivForm = styled.form `
     position: absolute;
@@ -130,17 +130,21 @@ export default class Home extends React.Component {
     }
 
     login(e) {
-        // e.preventDefault();
+        e.preventDefault();
         // this.props.history.push('/auth1')
 
-        console.log("order")
+        console.log("ordre")
+        console.log("ordre&&&")
         const user = this.state.user
         console.log(user)
         const headers = { 
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+            "Accept-Encoding": "gzip, deflate, br"
         };
-    
-        
+
+        let url = "http://localhost:8080/login"
+        /*
         axios.post('http://localhost:8080/login', user, { headers })
         .then((response) => {
             console.log(response)
@@ -162,7 +166,7 @@ export default class Home extends React.Component {
             // this.props.history.push('/auth1')
         })
         .catch((error) => console.error(error))
-
+*/
     }
 
     render(){
@@ -172,8 +176,8 @@ export default class Home extends React.Component {
                     <Logo src={logo} alt="logo" />
                 </div>
                 <div style={{ backgroundColor: '#EEF2F6', height: '50vh'}}>
-                <DivForm onSubmit={(e) => this.login(e)}>
-                {/* <DivForm method='POST' action='http://localhost:8080/login'> */}
+                    {/*<DivForm onSubmit={(e) => this.login(e)}> */}
+                <DivForm method='POST' action='http://localhost:8080/login'>
                     <center><TitleForm>Connexion</TitleForm></center>
                     <div style={{marginTop: '25px'}}>
                         <LabelForm>Nom d'utilisateur</LabelForm>

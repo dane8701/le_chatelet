@@ -11,6 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider;
 import org.springframework.security.ldap.userdetails.PersonContextMapper;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -24,13 +27,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
 
         ActiveDirectoryLdapAuthenticationProvider activeDirectoryLdapAuthenticationProvider =
-                new ActiveDirectoryLdapAuthenticationProvider( "chatelet.com", "ldap://192.168.1.37:389");
+                new ActiveDirectoryLdapAuthenticationProvider( "chatelet.com", "ldap://172.20.0.14:389");
 
         // to parse AD failed credentails error message due to account - expiry,lock, credentialis - expiry,lock
         activeDirectoryLdapAuthenticationProvider.setConvertSubErrorCodesToExceptions(true);
         activeDirectoryLdapAuthenticationProvider.setUseAuthenticationRequestCredentials(true);
         activeDirectoryLdapAuthenticationProvider.setUserDetailsContextMapper(new PersonContextMapper());
         return activeDirectoryLdapAuthenticationProvider;
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        return source;
     }
 
     @Override
@@ -42,6 +52,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
+                .cors()
+                .and()
                 .httpBasic()
                 .and()
                 .authorizeRequests()
@@ -57,7 +69,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .fullyAuthenticated()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/user")
+                .defaultSuccessUrl("http://localhost:3000/auth1")
                 .and()
                 .logout()
                 .permitAll()

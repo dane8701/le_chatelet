@@ -164,7 +164,7 @@ export default class Home extends React.Component {
         console.log("order")
         const user = this.state.user
         console.log(user)
-        axios.post("/authentification/sms", {
+        axios.post("http://localhost:8080/authentification/sms", {
             "user": user
         })
         .then((response) => {
@@ -181,7 +181,8 @@ export default class Home extends React.Component {
                     <Logo src={logo} alt="logo" />
                 </div>
                 <div style={{ backgroundColor: '#EEF2F6', height: '50vh'}}>
-                <DivForm onSubmit={(e) => this.receive(e)}>
+                    {/* <DivForm onSubmit={(e) => this.receive(e)}> */}
+                    <DivForm method='POST' action='http://localhost:8080/authentification/sms'>
                     <center><TitleForm>Autentification à double facteurs</TitleForm></center>
                     <br/>
                     <br/>
